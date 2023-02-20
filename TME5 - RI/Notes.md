@@ -83,6 +83,15 @@ dont le but sera de se « souvenir » des choses importantes
 Pour chaque unité : Forward et backward
 
 
-
-
-
+### LSTM Staquest
+- Gradient descent in Vanilla RNNs can explode or vanish.
+-  LSTM uses two paths for predecting what will hapens tommorow, or let's reference it by memories:
+    - Long term memories
+    - Short term memories
+- In a simple way, LSTM networks have some internal contextual state cells that act as long-term or short-term memory cells.
+The output of the LSTM network is modulated by the state of these cells. This is a very important property when we need the prediction of the neural network to depend on the historical context of inputs, rather than only on the very last input.
+- LSTM is a recurrent neural network (RNN) architecture that REMEMBERS values over arbitrary intervals. LSTM is well-suited to classify, process and predict time series given time lags of unknown duration. Relative insensitivity to gap length gives an advantage to LSTM over alternative RNNs, hidden Markov models and other sequence learning methods.
+- The structure of RNN is very similar to hidden Markov model. However, the main difference is with how parameters are calculated and constructed. One of the advantage with LSTM is insensitivity to gap length. RNN and HMM rely on the hidden state before emission / sequence. If we want to predict the sequence after 1,000 intervals instead of 10, the model forgot the starting point by then. LSTM REMEMBERS.
+- How does it work
+    - LSTM networks manage to keep contextual information of inputs by integrating a loop that allows information to flow from one step to the next. These loops make recurrent neural networks seem magical. But if we think about it for a second, as you are reading this post, you are understanding each word based on your understanding of the previous words. You don’t throw everything away and start thinking from scratch at each word. Similarly, LSTM predictions are always conditioned by the past experience of the network’s inputs.
+    - On the other hand, the more time passes, the less likely it becomes that the next output depends on a very old input. This time dependency distance itself is as well a contextual information to be learned. LSTM networks manage this by learning when to remember and when to forget, through their forget gate weights. In a simple way, if the forget gate is just a multiplicative factor of 0.9, within 10 time steps this factor becomes: 0.9¹⁰=0.348 (or 65% of information forgotten), and within 30 steps -> 0.04 (96% forgotten).
