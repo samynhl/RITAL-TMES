@@ -1,0 +1,20 @@
+Schéma experimental:
+- Expérimenter avec plusieurs pré-traitements sur les données d'apprentissage.
+- Evaluer l'effet de ces pré-traitements sur les résultats de classification.
+- Organiser le code sous forme de pipelines.
+- Garder le code propre et lisible.
+- Comment in english in order to get used to the nlp vocabulary
+
+
+Step 01 : Data Preprocessing
+- remove punctuation
+- remove digits
+- remove urls
+- lowercase
+- remove stopwords (or not)
+- stemming (or not)
+
+--> Build a data Preprocessing pipeline
+
+
+- Push to github whenever you finish a main task.
