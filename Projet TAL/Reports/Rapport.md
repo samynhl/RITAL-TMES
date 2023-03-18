@@ -44,3 +44,22 @@ retrouve ‘solidarité’, ‘respect’, ‘valeur’, ‘coeur’, ‘amitié
 
 
 ## Pré-processing de la base d'apprentissage
+Cette phase est primordiale afin de réduire la dimensionnalité de notre base lorsqu’elle sera mise sous forme liste de vecteurs sur le vocabulaire.
+Les pré-traitements que nous considérons sont notamment : 
+- La mise en minuscule 
+- La normalisation afin de supprimer les accents et les caractères non normalisés 
+- La suppression des chiffres et de la ponctuation 
+- Le stemming 
+- L’élimination des stopwords 
+
+Ces  pré-traitements  s’effectuent  par  paramétrage  (True  ou  False)  d’une  fonction  dédiée  au  processing  du  corpus.  Il  s’agira  pour  nous  de  retrouver  par  GridSearch  la/les  combinaisons 
+optimisant la métrique choisie sur la base d’apprentissage en validation croisée. Sachant que  le 
+modèle de machine learning choisi, le paramètre de régularisation et le type de représentation des 
+phrases seront aussi des paramètres à optimiser, nous devons déjà faire une pré-sélection sur ces 
+pré-traitement  afin  de  réduire  le  nombre  de  combinaisons  à  tester.  Nous  choisissons  de  fixer  la 
+suppression des chiffres et de la ponctuation à True : les discours ont été prononcés mais dans la 
+base, les phrases ont été écrites de manière neutre (la ponctuation n’apporte donc pas d’information 
+supplémentaire). 
+
+
+## Modèles de machine learning
