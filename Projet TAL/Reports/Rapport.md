@@ -63,3 +63,24 @@ supplémentaire).
 
 
 ## Modèles de machine learning
+Nous choisissons de tester trois modèles de machine  learning : 
+un SVM  linéaire (LinearSVC), un modèle Naive Bayes (MultinomialNB) et une régression logistique (LogisticRegression). En particulier,  sklearn  propose  également  un  paramètre  de  régularisation  C  pour  les  modèles  de 
+régression linéaire et SVM que nous nous attacherons à optimiser.
+
+## Selection de modèles
+Par  défaut,  les  scores  calculés  pour  un  modèle  de  sklearn  sont  des  taux  de  bonne  classification 
+(accuracy). Cette métrique n’est cependant pas adaptée à notre cas, puisqu’un classifieur  ne prédisant que la classe majoritaire (qui représente ici plus de 80% de nos données) aura une accuracy supérieure à 0.8... Nous choisissons donc d’optimiser le score F1 sur la classe minoritaire (Mitterrand). 
+
+## Schéma expérimental
+1. Première campagne d'expériences:
+Nous effectuons en premier lieu grid search sur les pré-traitement ainsi que sur les modèle de machine learning décrits plus hauts. Le type de représentation des phrases (vectorisation par comptage ou par tf-idf) ainsi que les types de n-grams sont également des hyperparamètres à prendre en compte.
+
+2. Deuxième campagne d'experiences:
+Comme nous l’avons précisé plus haut, les données sont fortement déséquilibrées et la majorité d’entre  elles  appartient  à  la  classe  Chirac.  Nous  risquons  ainsi  d’apprendre  un  classifieur  ne 
+prédisant presque que la classe majoritaire :
+    - Sur-échantillonner la classe minoritaire, sous-échantilloner la classe minoritaire, ou faire un mélange des deux. Nos expériences n’ont pas été très concluantes, les résultats  obtenus sont moins bons que sur la base d’origine.
+    - Changer la fonction de coût pour pénaliser plus fortement les mauvaises prédictions sur la classe  minoritaire.  Le  module  sklearn  propose pour  cela  pour  chacun  de  ses  modèle  un paramètre class_weight nous permettant d’attribuer un ratio de pénalité sur les différentes classes.
+
+## Campagnes d'expériences
+
+## Difficultés rencontrées et idées d'ouverture
