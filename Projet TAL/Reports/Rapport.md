@@ -8,7 +8,7 @@
 7. Campagne d'experiences   
     1. Première campagne
     2. Deuxième campagne
-8. Difficultés rencontrées et idées d'ouverture.
+8. Résultats
 
 Ce projet s'inscrit dans le cadre du module de Recherche d'Information et Traitement Automatique du Language naturel RITAL. Nous devons entraîner un classifieur binaire sur deux bases d'apprentissage : 
 - Base des discours des présidents français Chirac et Mitterand.
