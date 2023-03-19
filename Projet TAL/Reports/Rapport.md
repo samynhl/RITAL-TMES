@@ -81,6 +81,46 @@ prédisant presque que la classe majoritaire :
     - Sur-échantillonner la classe minoritaire, sous-échantilloner la classe minoritaire, ou faire un mélange des deux. Nos expériences n’ont pas été très concluantes, les résultats  obtenus sont moins bons que sur la base d’origine.
     - Changer la fonction de coût pour pénaliser plus fortement les mauvaises prédictions sur la classe  minoritaire.  Le  module  sklearn  propose pour  cela  pour  chacun  de  ses  modèle  un paramètre class_weight nous permettant d’attribuer un ratio de pénalité sur les différentes classes.
 
-## Campagnes d'expériences
+2. Troisième campagne d'experiences:
+Utiliser les meilleurs modèles appris précédemment avec une technique d'apriori.
+En effet, nous avons observé précédemment que les phrases des présidents étaient rangées par blocs dans 
+la  base  d’apprentissage.  Nous  faisons  l’hypothèse  que  les  données  de  test  suivent  la  même 
+tendance et nous nous proposons de procéder à un lissage des résultats afin d’obtenir également 
+des blocs sur nos prédictions. C’est un choix justifiable puisque nos classifieurs auront tendance à 
+moins bien prédire les phrases de la classe minoritaire, chaque prédiction -1 peut alors se révéler 
+importante si elle n’est pas isolée. Nous procédons à trois lissages :
+- Premier lissage:chaque  prédiction  devient  le  signe  de  la  somme  pondérée  de  son 
+voisinage, en accordant un poids plus important aux voisins valant -1. Le nombre de voisins 
+pris en compte est un hyperparamètre que nous fixons à 12 après optimisation par tests.
+- Deuxième lissage: cette  fois-ci  nous  nous  intéressons  aux  labels  isolés  (ie  entourés  par 
+deux labels de l’autre classe), ou aux séquences de labels différentes (-1,1,-1,1,-1). Dans le 
+premier cas nous fixons la classe du label isolé aux labels qui l’entourent, dans le deuxième 
+cas nous prenons le label majoritaire dans le voisinage en conflit 
+- Troisième lissage: Nous remarquons un effet de bord sur les labels prédits en 
+apprentissage :  il  arrive  que  les  séquences  de  -1  soient  plus  courtes  que  prévues  car  les 
+labels  en  bordure  de  séquence,  bien  qu’originellement  prédites  comme  -1, ont été 
+moyennées à 1. Nous proposons donc un dernier lissage qui consiste à regarder les voisins 
+directs en début et en fin de séquences de -1, si leurs prédictions étaient originellement à -1 
+(avant lissage). Si oui on met à -1 les suites de 1 originellement à -1 dans le voisinage direct 
+des bords de séquences de -1.
 
-## Difficultés rencontrées et idées d'ouverture
+
+## Campagnes d'expériences
+1. Première campagne d'expériences:
+Nous relevons d’abord les paramètres permettant d’obtenir les meilleures performances. Il est à noter que nous ne prenons pas directement la combinaison de paramètres donnant le meilleur score, mais étudions les 20 meilleures combinaisons pour convenir d’une  agrégation de ces paramètres qui nous parait optimale. Ainsi par exemple, les meilleures  combinaisons  ont  leurs  paramètres  stemming  à  True  et  no_stopwords  à False,  mais  un  grand  nombre  de  combinaisons  produisant  des  scores  similaires  (de  l’ordre  de  0.56-0.57)  ont  leurs paramètres stemming à False et no_stopwords à True. Nous choisissons de prendre ces derniers afin de réduire la dimensionnalité de nos matrices (suppression de stopwords).
+Ainsi, nous décidons des paramètres suivants : 
+- Pré-traitements : pas de mise en minuscule, suppression des chiffres et de la ponctuation, pas de normalisation, pas de stemming, suppression des stopwords.
+- Représentation vectorielle : comptage, avec un n-gram range à (1,2) – prise en compte des unigrammes et bigrammes.
+- Modèle : régression logistique avec C entre 10 et 100.  
+
+2. Deuxième campagne d'experiences:
+Comme nous l’avons précisé plus haut, les données sont fortement déséquilibrées et la majorité 
+d’entre  elles  appartient  à  la  classe  Chirac.  Nous  risquons  ainsi  d’apprendre  un  classifieur  ne 
+prédisant presque que la classe majoritaire.
+
+Nous lançons une deuxième campagne d’expériences afin de déterminer les poids idéaux, en fixant 
+certains  des  paramètres  déjà  optimisés  (les  pré-traitements).  Nous  laissons  la  représentation 
+vectorielle  et  le  modèle  comme  hypermaramètres,  et  nous  trouvons  que  mettre  la  classe  -1 
+(Mitterrand)  à  ~0.6  et  la  classe  1  à  ~0.4  nous  donne  les  meilleurs  résultats.  Cette  fois-ci  la 
+représentation vectorielle à préférer est le tf-idf, toujours avec un modèle de régression logistique et 
+un C plus faible. Nous le fixons à 20.
